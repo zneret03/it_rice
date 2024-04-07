@@ -5,7 +5,7 @@ export const labels: { title: string; path: string }[] = [
   },
   {
     title: 'About',
-    path: '#about'
+    path: '/#about'
   },
   {
     title: 'Login',

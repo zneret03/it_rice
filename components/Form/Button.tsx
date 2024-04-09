@@ -6,12 +6,14 @@ interface ButtonTypes {
   variant: 'default' | 'primary' | 'secondary' | 'transparent'
   title: string
   customStyle?: string
+  onClick?: () => void
 }
 
 export const Button = ({
   variant,
   title,
   customStyle,
+  onClick,
   ...rest
 }: ButtonTypes & ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element => {
   const buttonVariants: { [key: string]: string } = {
@@ -23,12 +25,15 @@ export const Button = ({
   return (
     <button
       {...rest}
+      onClick={onClick}
       className={`
-        ${variant !== 'default' ? 
-          `font-light ${customStyle} 
+        ${
+          variant !== 'default'
+            ? `font-light ${customStyle} 
         ${buttonVariants[variant]}
         rounded-[0.375rem] px-8 py-2 font-semibold hover:opacity-60`
-        : customStyle}`}
+            : customStyle
+        }`}
     >
       {title}
     </button>

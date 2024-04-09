@@ -1,8 +1,12 @@
 'use client'
 
+import { useContext } from 'react'
+import { AuthorizationContext } from '@/context'
 import { useForm } from 'react-hook-form'
-import { useValidation } from '@/lib/hooks'
+import { useValidation } from '@/lib'
 import { InputField, Button, Checkbox } from '@/components'
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
 
 interface LoginTypes {
   email: string
@@ -11,7 +15,10 @@ interface LoginTypes {
 }
 
 const Page = (): JSX.Element => {
-  const { validate } = useValidation()
+  const { dispatch } = useContext(AuthorizationContext)
+  const { validation } = useValidation()
+  const router = useRouter()
+
   const {
     control,
     handleSubmit,
@@ -23,8 +30,16 @@ const Page = (): JSX.Element => {
     }
   })
 
-  const onSubmit = (data: LoginTypes): void => {
-    console.log(data)
+  const onSubmit = async (data: LoginTypes): Promise<void> => {
+    const { email, password } = data
+    await axios.post('/api/auth/login', {
+      email,
+      password,
+      remember: false
+    })
+
+    dispatch?.({ type: 'login', payload: { email, password } })
+    router.push('/admin')
   }
 
   return (
@@ -47,7 +62,7 @@ const Page = (): JSX.Element => {
             errorMessage={errors?.email?.message}
             {...register('email', {
               required: 'Required field.',
-              validate: (value) => validate(value)
+              validate: (value) => validation(value)
             })}
           />
           <InputField

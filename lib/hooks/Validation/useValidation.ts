@@ -1,14 +1,14 @@
 import { emailFormat } from '@/helpers'
 
 interface UseValidationTypes {
-  validate: (value: string) => boolean | string
+  validation: (value: string) => string | boolean
 }
 
 export const useValidation = (): UseValidationTypes => {
-  const validate = (value: string): boolean | string =>
-    emailFormat.test(value) || 'email format is not valid.'
+  const validation = (value: string): string | boolean =>
+    emailFormat.test(value) || 'This email is not correct format.'
 
   return {
-    validate
+    validation
   }
 }

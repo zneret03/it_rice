@@ -23,6 +23,7 @@ const Page = (): JSX.Element => {
     control,
     handleSubmit,
     register,
+    watch,
     formState: { errors }
   } = useForm<LoginTypes>({
     defaultValues: {
@@ -30,16 +31,18 @@ const Page = (): JSX.Element => {
     }
   })
 
+  const watchEmail = watch('email')
+
   const onSubmit = async (data: LoginTypes): Promise<void> => {
-    const { email, password } = data
+    const { email, password, rememberMe } = data
     await axios.post('/api/auth/login', {
       email,
       password,
-      remember: false
+      remember: rememberMe
     })
 
     dispatch?.({ type: 'login', payload: { email, password } })
-    router.push('/admin')
+    router.push(`/admin?email=${watchEmail}`)
   }
 
   return (

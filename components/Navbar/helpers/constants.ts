@@ -33,6 +33,6 @@ export const adminLabels: LabelTypes[] = [
   },
   {
     title: 'Logout',
-    path: ''
+    path: '/logout'
   }
 ]

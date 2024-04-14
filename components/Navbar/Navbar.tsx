@@ -5,14 +5,15 @@ import { AuthorizationContext } from '@/context'
 import { Logo, Button } from '@/components'
 import { deleteCookie } from 'cookies-next'
 import { adminLabels, labels } from './helpers/constants'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
 export const Navbar = (): JSX.Element => {
   const { state, dispatch, cookies } = useContext(AuthorizationContext)
   const router = useRouter()
+  const params = useSearchParams()
 
-  const isUserLoggedIn = state.email || cookies
+  const isUserLoggedIn = state.email || cookies || !!params.get('email')
 
   const hasCookies = isUserLoggedIn ? adminLabels : labels
 
@@ -23,7 +24,7 @@ export const Navbar = (): JSX.Element => {
   }
 
   return (
-    <section className='fixed top-0  flex w-full items-center justify-between bg-green-900'>
+    <section className='fixed top-0 z-50 flex w-full items-center justify-between bg-green-900'>
       <Link href='/'>
         <Logo />
       </Link>

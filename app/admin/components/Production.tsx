@@ -1,5 +1,8 @@
-export const Production = (): JSX.Element => {
-  return (
+'use client'
+import { Wrapper } from '@/components'
+
+export const Production = (): JSX.Element => (
+  <Wrapper>
     <div className='mt-4 rounded-lg bg-white shadow-lg'>
       <div className='px-6 pt-6 text-green-900'>
         <h1 className='text-2xl font-bold'>Production</h1>
@@ -24,5 +27,5 @@ export const Production = (): JSX.Element => {
         </tbody>
       </table>
     </div>
-  )
-}
+  </Wrapper>
+)

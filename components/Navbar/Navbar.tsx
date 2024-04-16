@@ -30,16 +30,25 @@ export const Navbar = (): JSX.Element => {
       </Link>
 
       <nav className='flex items-center gap-10 text-white'>
-        {hasCookies.map(({ title, path }) => (
-          <Link href={path} key={title}>
+        {hasCookies.map(({ title, path }) =>
+          path === '/logout' ? (
             <Button
               variant={`${['Login', 'Logout'].includes(title) ? 'secondary' : 'default'}`}
               customStyle='text-sm'
               onClick={title === 'Logout' ? () => signOut() : () => {}}
               title={title}
             />
-          </Link>
-        ))}
+          ) : (
+            <Link href={path} key={title}>
+              <Button
+                variant={`${['Login', 'Logout'].includes(title) ? 'secondary' : 'default'}`}
+                customStyle='text-sm'
+                onClick={title === 'Logout' ? () => signOut() : () => {}}
+                title={title}
+              />
+            </Link>
+          )
+        )}
       </nav>
     </section>
   )

@@ -68,7 +68,7 @@ export const AuthorizationProvider = ({
 
   useEffect(() => {
     if (authToken && state.email) {
-      router.push(`/admin?email=${state.email}`)
+      router.push(`/dashboard?email=${state.email}`)
     }
   }, [authToken, isWindow, router, state])
 

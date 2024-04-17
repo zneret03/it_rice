@@ -42,7 +42,7 @@ const Page = (): JSX.Element => {
     })
 
     dispatch?.({ type: 'login', payload: { email, password } })
-    router.push(`/admin?email=${watchEmail}`)
+    router.push(`/dashboard?email=${watchEmail}`)
   }
 
   return (

@@ -54,7 +54,7 @@ const Page = (): JSX.Element => {
     >
       <div className='w-2/6 space-y-6 rounded-lg bg-white py-10'>
         <h1 className='text-center text-3xl font-extrabold text-green-900'>
-          Welcome to ITrice
+          Welcome to RiceTech
         </h1>
         <form className='space-y-6 px-10' onSubmit={handleSubmit(onSubmit)}>
           <InputField

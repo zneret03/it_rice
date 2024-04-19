@@ -20,7 +20,7 @@ export default function Home() {
     <main className='mb-10 space-y-28'>
       <section className='mt-36 flex flex-col items-center justify-center space-y-4'>
         <h1 className={`text-5xl font-extrabold text-green-100`}>
-          Welcome to ITrice
+          Welcome to RiceTech
         </h1>
         <p className='text-green-300'>
           DSS in determing local rice production and consumption

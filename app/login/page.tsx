@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { useValidation } from '@/lib'
 import { InputField, Button, Checkbox } from '@/components'
 import { useRouter } from 'next/navigation'
+import Swal from 'sweetalert2'
 import axios from 'axios'
 
 interface LoginTypes {
@@ -34,15 +35,23 @@ const Page = (): JSX.Element => {
   const watchEmail = watch('email')
 
   const onSubmit = async (data: LoginTypes): Promise<void> => {
-    const { email, password, rememberMe } = data
-    await axios.post('/api/auth/login', {
-      email,
-      password,
-      remember: rememberMe
-    })
+    try {
+      const { email, password, rememberMe } = data
+      await axios.post('http://127.0.0.1:5000/api/auth/login', {
+        email,
+        password,
+        remember: rememberMe
+      })
 
-    dispatch?.({ type: 'login', payload: { email, password } })
-    router.push(`/dashboard?email=${watchEmail}`)
+      dispatch?.({ type: 'login', payload: { email, password } })
+      router.push(`/dashboard?email=${watchEmail}`)
+    } catch (error: any) {
+      Swal.fire({
+        title: 'ERROR!',
+        text: 'user doesnt exist',
+        icon: 'error'
+      })
+    }
   }
 
   return (

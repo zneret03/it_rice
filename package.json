@@ -21,7 +21,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.2",
-    "recharts": "^2.12.5"
+    "recharts": "^2.12.5",
+    "sweetalert2": "^11.10.8"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -18,7 +18,7 @@ export default function RootLayout({
 
   return (
     <html lang='en' className='scroll-smooth'>
-      <title>ITrice</title>
+      <title>RiceTech</title>
       <AuthorizationProvider>
         <body
           className={`${inter.className} ${!!email ? 'white' : 'bg-green-900'}`}

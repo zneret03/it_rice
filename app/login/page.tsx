@@ -37,7 +37,7 @@ const Page = (): JSX.Element => {
   const onSubmit = async (data: LoginTypes): Promise<void> => {
     try {
       const { email, password, rememberMe } = data
-      await axios.post('http://127.0.0.1:5000/api/auth/login', {
+      await axios.post('/api/auth/login', {
         email,
         password,
         remember: rememberMe

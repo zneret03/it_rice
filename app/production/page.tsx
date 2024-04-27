@@ -2,22 +2,36 @@
 
 import { InputField, Button } from '@/components'
 import { useForm } from 'react-hook-form'
+import { ProductionTypes } from '@/lib'
+import axios from 'axios'
+import swal from 'sweetalert2'
 
-interface ProductionTypes {
-  irrigated: number
-  rainfeed: number
-  seedType: string
-}
+type AddProductionTypes = Omit<ProductionTypes, 'dateCrated'>
 
 const Page = (): JSX.Element => {
   const {
     formState: { errors },
     register,
-    handleSubmit
-  } = useForm<ProductionTypes>()
+    handleSubmit,
+    reset
+  } = useForm<AddProductionTypes>()
 
-  const onSubmit = (data: ProductionTypes): void => {
-    console.log(data)
+  const onSubmit = async (data: ProductionTypes): Promise<void> => {
+    const { irrigated, rainfeed, seedType } = data
+
+    await axios.post('/api/production', {
+      irrigated: Number(irrigated),
+      rainfeed: Number(rainfeed),
+      seedType
+    })
+
+    swal.fire({
+      title: 'Success',
+      text: 'successfully added production',
+      icon: 'success'
+    })
+
+    reset()
   }
 
   return (

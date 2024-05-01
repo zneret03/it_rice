@@ -20,6 +20,7 @@
     "prettier-plugin-tailwindcss": "^0.5.13",
     "react": "^18",
     "react-dom": "^18",
+    "react-feather": "^2.0.10",
     "react-hook-form": "^7.51.2",
     "recharts": "^2.12.5",
     "sweetalert2": "^11.10.8"

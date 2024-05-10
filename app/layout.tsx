@@ -2,7 +2,7 @@
 
 import { Inter } from 'next/font/google'
 import { Footer, Navbar } from '@/components'
-import { AuthorizationProvider } from '@/context'
+import { AuthorizationProvider, ProductionProvider } from '@/context'
 import { useSearchParams } from 'next/navigation'
 import '@/styles/index.css'
 
@@ -20,13 +20,15 @@ export default function RootLayout({
     <html lang='en' className='scroll-smooth'>
       <title>RiceTech</title>
       <AuthorizationProvider>
-        <body
-          className={`${inter.className} ${!!email ? 'white' : 'bg-green-900'}`}
-        >
-          <Navbar />
-          {children}
-          <Footer />
-        </body>
+        <ProductionProvider>
+          <body
+            className={`${inter.className} ${!!email ? 'white' : 'bg-green-900'}`}
+          >
+            <Navbar />
+            {children}
+            <Footer />
+          </body>
+        </ProductionProvider>
       </AuthorizationProvider>
     </html>
   )

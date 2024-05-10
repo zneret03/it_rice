@@ -17,7 +17,7 @@ export const Button = ({
   ...rest
 }: ButtonTypes & ButtonHTMLAttributes<HTMLButtonElement>): JSX.Element => {
   const buttonVariants: { [key: string]: string } = {
-    primary: 'bg-green-900 text-green-900',
+    primary: 'bg-green-900 text-white',
     secondary: 'bg-green-300 text-white',
     transparent: 'bg-transparent text-green-100 border border-green-100'
   }

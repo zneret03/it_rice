@@ -6,13 +6,15 @@ interface DropdownTypes {
   label: string
   activeOptions: string
   setOptions: (option: string) => void
+  customStyles?: string
 }
 
 export const Dropdown = ({
   options,
   activeOptions,
   label,
-  setOptions
+  setOptions,
+  customStyles
 }: DropdownTypes): JSX.Element => {
   const [isOpen, setOpen] = useState<boolean>(false)
 
@@ -22,10 +24,10 @@ export const Dropdown = ({
     <div className='relative'>
       <button
         onClick={onOpen}
-        className='inline-flex items-center rounded-lg border-2 border-green-900 bg-white px-5 py-2.5 text-center text-sm font-medium text-green-900 hover:bg-green-900 hover:text-white focus:outline-none'
+        className='relative flex items-center space-between rounded-lg border-2 border-green-900 bg-white px-5 py-2.5 text-center text-sm font-medium text-green-900 hover:bg-green-900 hover:text-white focus:outline-none w-full'
         type='button'
       >
-        {activeOptions || label} <ChevronDown className='color-green-900' />
+        {activeOptions || label} <ChevronDown className={`color-green-900 ${customStyles}`} />
       </button>
 
       <div

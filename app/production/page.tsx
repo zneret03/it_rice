@@ -12,7 +12,6 @@ import swal from 'sweetalert2'
 
 type AddProductionTypes = Omit<ProductionTypes, 'dateCrated'>
 
-
 const Page = (): JSX.Element => {
   const {
     state: { irrigated, rainfeed, seedType, id }
@@ -69,7 +68,7 @@ const Page = (): JSX.Element => {
     await axios.put(`/api/production/${id}`, {
       irrigated: Number(irrigated),
       rainfeed: Number(rainfeed),
-      seedType
+      seedType: activeOptions || seedType
     })
 
     swal.fire({

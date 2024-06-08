@@ -2,8 +2,13 @@
 
 import { Inter } from 'next/font/google'
 import { Footer, Navbar } from '@/components'
-import { AuthorizationProvider, ProductionProvider } from '@/context'
+import {
+  AuthorizationProvider,
+  ProductionProvider,
+  ModalProvider
+} from '@/context'
 import { useSearchParams } from 'next/navigation'
+import { CreateUserModal } from './account/components'
 import '@/styles/index.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -19,17 +24,20 @@ export default function RootLayout({
   return (
     <html lang='en' className='scroll-smooth'>
       <title>RiceTech</title>
-      <AuthorizationProvider>
-        <ProductionProvider>
-          <body
-            className={`${inter.className} ${!!email ? 'white' : 'bg-green-900'}`}
-          >
-            <Navbar />
-            {children}
-            <Footer />
-          </body>
-        </ProductionProvider>
-      </AuthorizationProvider>
+      <ModalProvider>
+        <AuthorizationProvider>
+          <ProductionProvider>
+            <body
+              className={`${inter.className} ${!!email ? 'white' : 'bg-green-900'}`}
+            >
+              <Navbar />
+              {children}
+              <Footer />
+              <CreateUserModal />
+            </body>
+          </ProductionProvider>
+        </AuthorizationProvider>
+      </ModalProvider>
     </html>
   )
 }

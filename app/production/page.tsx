@@ -105,7 +105,7 @@ const Page = (): JSX.Element => {
         >
           <InputField
             label='Irrigated'
-            type='number'
+            type='text'
             placeholder='Enter your irrigated data...'
             hasError={!!errors.irrigated}
             errorMessage={errors?.irrigated?.message}
@@ -115,7 +115,7 @@ const Page = (): JSX.Element => {
           />
           <InputField
             label='Rainfeed'
-            type='number'
+            type='text'
             placeholder='Enter your rainfeed...'
             hasError={!!errors.rainfeed}
             errorMessage={errors?.rainfeed?.message}

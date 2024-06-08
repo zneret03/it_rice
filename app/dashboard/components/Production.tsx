@@ -11,7 +11,7 @@ import axios from 'axios'
 const columns = ['Date', 'Rainfeed', 'Irrigated', 'SeedType', 'Action']
 
 export const Production = (): JSX.Element => {
-  const { fetchData } = useFetchData<ProductionTypes>('/api/production?page=1')
+  const { fetchData } = useFetchData<ProductionTypes[]>('/api/production?page=1')
   const [activeOptions, setActiveOptions] = useState<string>('')
   const [productionData, setProduction] = useState<ProductionTypes[]>([])
   const { dispatch } = useContext(ProductionContext)

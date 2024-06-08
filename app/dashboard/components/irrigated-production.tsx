@@ -6,7 +6,7 @@ import { monthQuarter } from '@/helpers'
 
 export const ErrigatedProduction = (): JSX.Element => {
   const [activeOptions, setActiveOptions] = useState<string>('')
-  const { fetchData } = useFetchData<ProductionTypes>('/api/production?page=1')
+  const { fetchData } = useFetchData<ProductionTypes[]>('/api/production?page=1')
 
   const productions = monthQuarter(fetchData)
   const quarterlyProduction = productions.map(

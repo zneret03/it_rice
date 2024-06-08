@@ -8,6 +8,7 @@ interface InputFieldTypes {
   errorMessage?: string
   placeholder?: string
   type?: string
+  step?: string
 }
 
 type Ref = HTMLInputElement
@@ -20,6 +21,7 @@ export const InputField = forwardRef<Ref, InputFieldTypes>(
       errorMessage,
       placeholder,
       type = 'text',
+      step,
       ...rest
     } = props
 
@@ -30,6 +32,7 @@ export const InputField = forwardRef<Ref, InputFieldTypes>(
         </label>
         <input
           type={type}
+          step={step}
           className={`
             border ${hasError ? 'border-red-500' : 'border-green-200'} 
             rounded-lg border-2

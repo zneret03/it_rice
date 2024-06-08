@@ -2,11 +2,11 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 
 interface UseFetchDataTypes<TData> {
-  fetchData: TData[]
+  fetchData: TData
 }
 
 export const useFetchData = <TData>(path: string): UseFetchDataTypes<TData> => {
-  const [fetchData, setData] = useState<TData[]>([])
+  const [fetchData, setData] = useState<TData | null>(null)
 
   useEffect(() => {
     const getData = async (): Promise<void> => {
@@ -19,6 +19,6 @@ export const useFetchData = <TData>(path: string): UseFetchDataTypes<TData> => {
   }, [path])
 
   return {
-    fetchData
+    fetchData: fetchData as TData
   }
 }

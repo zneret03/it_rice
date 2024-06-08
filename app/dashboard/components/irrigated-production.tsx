@@ -6,23 +6,25 @@ import { monthQuarter } from '@/helpers'
 
 export const ErrigatedProduction = (): JSX.Element => {
   const [activeOptions, setActiveOptions] = useState<string>('')
-  const { fetchData } = useFetchData<ProductionTypes[]>('/api/production?page=1')
+  const { fetchData } = useFetchData<ProductionTypes[]>(
+    '/api/production?page=1'
+  )
 
   const productions = monthQuarter(fetchData)
-  const quarterlyProduction = productions.map(
+  const quarterlyProduction = productions?.map(
     ({ rainfeed, irrigated, quarter }) => ({
       rainfeed,
       irrigated,
-      quarter
+      quarter: Math.floor(quarter)
     })
   )
 
-  const filterProduction = quarterlyProduction.filter(
+  const filterProduction = quarterlyProduction?.filter(
     ({ quarter }) => quarter === Number(activeOptions)
   )
 
   const activeProductions =
-    filterProduction.length !== 0 || !activeOptions
+    filterProduction?.length !== 0 || !activeOptions
       ? quarterlyProduction
       : filterProduction
 
@@ -50,7 +52,7 @@ export const ErrigatedProduction = (): JSX.Element => {
             <th className='my-2 flex-1 text-lg font-normal'>Irrigated</th>
           </thead>
           <tbody>
-            {activeProductions.map(({ rainfeed, irrigated }, index) => (
+            {activeProductions?.map(({ rainfeed, irrigated }, index) => (
               <tr
                 className='align-center flex border-b-2 text-center'
                 key={index}
@@ -60,7 +62,7 @@ export const ErrigatedProduction = (): JSX.Element => {
               </tr>
             ))}
 
-            {activeProductions.length === 0 && (
+            {activeProductions?.length === 0 && (
               <h1 className='py-4 text-center font-bold text-green-900/40'>
                 Empty table
               </h1>

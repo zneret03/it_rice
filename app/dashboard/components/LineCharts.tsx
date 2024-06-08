@@ -49,13 +49,16 @@ export const LineCharts = (): JSX.Element => {
     '/api/dashboard/trend?year=2023'
   )
 
-  const { irrigated, irrigated_trend, rainfeed, rainfeed_trend, month } =
-    fetchData as TrendsTypes
-
   const formattedData = useMemo(
     () =>
-      formatData(irrigated, irrigated_trend, rainfeed, rainfeed_trend, month),
-    [irrigated, irrigated_trend, rainfeed, rainfeed_trend, month]
+      formatData(
+        fetchData?.irrigated,
+        fetchData?.irrigated_trend,
+        fetchData?.rainfeed,
+        fetchData?.rainfeed_trend,
+        fetchData?.month
+      ),
+    [fetchData]
   )
 
   return (

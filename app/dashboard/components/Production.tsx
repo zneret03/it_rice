@@ -11,19 +11,21 @@ import axios from 'axios'
 const columns = ['Date', 'Rainfeed', 'Irrigated', 'SeedType', 'Action']
 
 export const Production = (): JSX.Element => {
-  const { fetchData } = useFetchData<ProductionTypes[]>('/api/production?page=1')
+  const { fetchData } = useFetchData<ProductionTypes[]>(
+    '/api/production?page=1'
+  )
   const [activeOptions, setActiveOptions] = useState<string>('')
   const [productionData, setProduction] = useState<ProductionTypes[]>([])
   const { dispatch } = useContext(ProductionContext)
 
   const productions = fetchData
-  const seedTypes = productions.map(({ seedType }) => seedType)
+  const seedTypes = productions?.map(({ seedType }) => seedType)
   const options = [...new Set(seedTypes)]
 
   const router = useRouter()
   const params = useSearchParams()
 
-  const filterProduction = productions.filter(
+  const filterProduction = productions?.filter(
     ({ seedType }) => seedType === activeOptions
   )
 
@@ -71,7 +73,7 @@ export const Production = (): JSX.Element => {
   }, [fetchData])
 
   const activeProductions =
-    filterProduction.length === 0 || !activeOptions
+    filterProduction?.length === 0 || !activeOptions
       ? productionData
       : filterProduction
 
@@ -96,7 +98,7 @@ export const Production = (): JSX.Element => {
             ))}
           </thead>
           <tbody>
-            {activeProductions.map(
+            {activeProductions?.map(
               ({ dateCreated, rainfeed, irrigated, seedType, id }, index) => (
                 <tr
                   className='align-center flex border-b-2 text-center'

@@ -7,5 +7,5 @@ export const Wrapper = ({ children }: { children: ReactNode }): JSX.Element => {
     setMounted(true)
   }, [])
 
-  return <>{mounted && children}</>
+  return <div className='relative'>{mounted && children}</div>
 }

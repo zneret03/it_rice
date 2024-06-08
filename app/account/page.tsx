@@ -2,9 +2,9 @@
 
 import { useContext, useEffect, useState } from 'react'
 import { ModalContext } from '@/context'
-import { useFetchData } from '@/lib'
+import { useFetchData, usePaginationAction } from '@/lib'
 import { useSearchParams } from 'next/navigation'
-import { Wrapper, Button } from '@/components'
+import { Wrapper, Button, Pagination } from '@/components'
 import swal from 'sweetalert2'
 import axios from 'axios'
 
@@ -26,6 +26,10 @@ const Page = (): JSX.Element => {
   useEffect(() => {
     setUserData(fetchData)
   }, [fetchData])
+
+  const { currentItems, nextPage, previousPage, currentPage, totalPages } =
+    usePaginationAction<UsersTypes>(userData)
+
 
   const onOpenModal = (): void =>
     dispatch?.({ type: 'open-modal', payload: { isOpen: true } })
@@ -77,7 +81,7 @@ const Page = (): JSX.Element => {
               <th className='my-2 flex-1 text-lg font-normal'>Action</th>
             </thead>
             <tbody>
-              {userData?.map(({ email, name, role, id }, index) => (
+              {currentItems?.map(({ email, name, role, id }, index) => (
                 <tr
                   className='align-center flex border-b-2 text-center'
                   key={index}
@@ -108,6 +112,14 @@ const Page = (): JSX.Element => {
                 </h1>
               )}
             </tbody>
+          <div className='float-right'>
+            <Pagination
+              nextPage={nextPage}
+              previousPage={previousPage}
+              currentPage={currentPage}
+              totalPage={totalPages}
+            />
+          </div>
           </table>
         </div>
       </Wrapper>

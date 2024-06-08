@@ -4,4 +4,5 @@ export interface ProductionTypes {
   rainfeed: number
   seedType: string
   dateCreated: string
+  quarter?: number
 }

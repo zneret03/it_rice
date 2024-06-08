@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useEffect, useContext } from 'react'
-import { Wrapper, Dropdown, Button } from '@/components'
+import { Wrapper, Dropdown, Button, Pagination } from '@/components'
 import { ProductionContext } from '@/context'
-import { useFetchData, ProductionTypes } from '@/lib'
+import { useFetchData, ProductionTypes, usePaginationAction } from '@/lib'
 import { useRouter, useSearchParams } from 'next/navigation'
 import swal from 'sweetalert2'
 import axios from 'axios'
@@ -77,6 +77,9 @@ export const Production = (): JSX.Element => {
       ? productionData
       : filterProduction
 
+  const { currentItems, nextPage, previousPage, currentPage, totalPages } =
+    usePaginationAction<ProductionTypes>(activeProductions)
+
   return (
     <Wrapper>
       <div className='mt-4 rounded-lg bg-white shadow-lg' id='production'>
@@ -98,7 +101,7 @@ export const Production = (): JSX.Element => {
             ))}
           </thead>
           <tbody>
-            {activeProductions?.map(
+            {currentItems?.map(
               ({ dateCreated, rainfeed, irrigated, seedType, id }, index) => (
                 <tr
                   className='align-center flex border-b-2 text-center'
@@ -107,7 +110,7 @@ export const Production = (): JSX.Element => {
                   <td className='my-2 flex-1'>{dateCreated}</td>
                   <td className='my-2 flex-1'>{rainfeed}</td>
                   <td className='my-2 flex-1'>{irrigated}</td>
-                  <td className='my-2 flex-1'>{seedType}</td>
+                  <td className='my-2 flex-1 text-left'>{seedType}</td>
                   <td className='my-2 flex flex-1 items-center gap-2'>
                     <Button
                       title='Edit'
@@ -124,6 +127,16 @@ export const Production = (): JSX.Element => {
               )
             )}
           </tbody>
+          <div className='float-right'>
+          {activeProductions?.length !== 0 && (
+            <Pagination
+              nextPage={nextPage}
+              previousPage={previousPage}
+              currentPage={currentPage}
+              totalPage={totalPages}
+            />
+          )}
+          </div>
         </table>
       </div>
     </Wrapper>

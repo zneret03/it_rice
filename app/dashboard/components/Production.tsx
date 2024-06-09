@@ -17,8 +17,8 @@ export const Production = (): JSX.Element => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const { dispatch } = useContext(ProductionContext)
 
-  const { fetchData } = useFetchData<ProductionTypes[]>(
-    `/api/production?page=${currentPage}&seedType=${activeOptions}`
+  const { fetchData, maxPage } = useFetchData<ProductionTypes[]>(
+    `/api/production?page=${currentPage}&seedType=${activeOptions}&maxItem=5`
   )
 
   const productions = fetchData
@@ -127,6 +127,7 @@ export const Production = (): JSX.Element => {
               <Pagination
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
+                totalPage={maxPage}
               />
             )}
           </div>

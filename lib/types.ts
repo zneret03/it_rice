@@ -6,3 +6,8 @@ export interface ProductionTypes {
   dateCreated: string
   quarter?: number
 }
+
+export interface ParamsType {
+  maxItem: number
+  page: number
+}

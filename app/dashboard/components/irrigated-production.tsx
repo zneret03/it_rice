@@ -1,13 +1,14 @@
 'use client'
 import { useState } from 'react'
 import { Wrapper, Dropdown, Pagination } from '@/components'
-import { useFetchData, ProductionTypes, usePaginationAction } from '@/lib'
+import { useFetchData, ProductionTypes } from '@/lib'
 import { monthQuarter } from '@/helpers'
 
 export const ErrigatedProduction = (): JSX.Element => {
   const [activeOptions, setActiveOptions] = useState<string>('')
+  const [currentPage, setCurrentPage] = useState<number>(1)
   const { fetchData } = useFetchData<ProductionTypes[]>(
-    '/api/production?page=1'
+    `/api/production?page=${currentPage}&maxItem=5`
   )
 
   const productions = monthQuarter(fetchData)
@@ -28,13 +29,6 @@ export const ErrigatedProduction = (): JSX.Element => {
     filterProduction?.length !== 0 || !activeOptions
       ? quarterlyProduction
       : filterProduction
-
-  const { currentItems, nextPage, previousPage, currentPage, totalPages } =
-    usePaginationAction<{
-      rainfeed: number
-      irrigated: number
-      quarter: number
-    }>(activeProductions)
 
   const setActiveOption = (option: string): void => {
     setActiveOptions(option)
@@ -60,7 +54,7 @@ export const ErrigatedProduction = (): JSX.Element => {
             <th className='my-2 flex-1 text-lg font-normal'>Irrigated</th>
           </thead>
           <tbody>
-            {currentItems?.map(({ rainfeed, irrigated }, index) => (
+            {productions?.map(({ rainfeed, irrigated }, index) => (
               <tr
                 className='align-center flex border-b-2 text-center'
                 key={index}
@@ -77,14 +71,12 @@ export const ErrigatedProduction = (): JSX.Element => {
             )}
           </tbody>
           <div className='float-right'>
-          {activeProductions?.length !== 0 && (
-            <Pagination
-              nextPage={nextPage}
-              previousPage={previousPage}
-              currentPage={currentPage}
-              totalPage={totalPages}
-            />
-          )}
+            {activeProductions?.length !== 0 && (
+              <Pagination
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+              />
+            )}
           </div>
         </table>
       </div>

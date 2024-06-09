@@ -36,17 +36,21 @@ export const CreateUserModal = (): JSX.Element => {
   const onSubmit = async (data: CreateUserTypes): Promise<void> => {
     const { name, email, password } = data
     await axios.post('/api/users', {
-      name, 
+      name,
       email,
       password,
       role: 'admin'
     })
 
-    swal.fire({
+    const response = await swal.fire({
       title: 'Success',
       text: 'successfully added production',
       icon: 'success'
     })
+
+    if (response.isConfirmed) {
+      window.location.reload()
+    }
 
     reset()
     onClose()

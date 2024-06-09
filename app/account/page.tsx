@@ -2,7 +2,7 @@
 
 import { useContext, useEffect, useState } from 'react'
 import { ModalContext } from '@/context'
-import { useFetchData, usePaginationAction } from '@/lib'
+import { useFetchData } from '@/lib'
 import { useSearchParams } from 'next/navigation'
 import { Wrapper, Button, Pagination } from '@/components'
 import swal from 'sweetalert2'
@@ -17,7 +17,12 @@ interface UsersTypes {
 
 const Page = (): JSX.Element => {
   const { dispatch } = useContext(ModalContext)
-  const { fetchData } = useFetchData<UsersTypes[]>('/api/users?page=1')
+  const [currentPage, setCurrentPage] = useState<number>(1)
+
+  const { fetchData, maxPage } = useFetchData<UsersTypes[]>(
+    `/api/users?page=${currentPage}&maxItem=5`
+  )
+
   const [userData, setUserData] = useState<UsersTypes[]>([])
 
   const params = useSearchParams()
@@ -26,10 +31,6 @@ const Page = (): JSX.Element => {
   useEffect(() => {
     setUserData(fetchData)
   }, [fetchData])
-
-  const { currentItems, nextPage, previousPage, currentPage, totalPages } =
-    usePaginationAction<UsersTypes>(userData)
-
 
   const onOpenModal = (): void =>
     dispatch?.({ type: 'open-modal', payload: { isOpen: true } })
@@ -81,7 +82,7 @@ const Page = (): JSX.Element => {
               <th className='my-2 flex-1 text-lg font-normal'>Action</th>
             </thead>
             <tbody>
-              {currentItems?.map(({ email, name, role, id }, index) => (
+              {userData?.map(({ email, name, role, id }, index) => (
                 <tr
                   className='align-center flex border-b-2 text-center'
                   key={index}
@@ -112,14 +113,13 @@ const Page = (): JSX.Element => {
                 </h1>
               )}
             </tbody>
-          <div className='float-right'>
-            <Pagination
-              nextPage={nextPage}
-              previousPage={previousPage}
-              currentPage={currentPage}
-              totalPage={totalPages}
-            />
-          </div>
+            <div className='float-right'>
+              <Pagination
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+                totalPage={maxPage}
+              />
+            </div>
           </table>
         </div>
       </Wrapper>

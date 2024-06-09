@@ -90,7 +90,7 @@ export const Production = (): JSX.Element => {
             ))}
           </thead>
           <tbody>
-            {productions?.map(
+            {productionData?.map(
               ({ dateCreated, rainfeed, irrigated, seedType, id }, index) => (
                 <tr
                   className='align-center flex border-b-2 text-center'

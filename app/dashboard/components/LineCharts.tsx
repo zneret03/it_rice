@@ -75,8 +75,8 @@ export const LineCharts = (): JSX.Element => {
           <YAxis />
           <Tooltip />
           <Line type='monotone' dataKey='irrigated' stroke='#8884d8' />
-          <Line type='monotone' dataKey='irrigated trend' stroke='#82ca9d' />
-          <Line type='monotone' dataKey='rainfeed' stroke='#8884d8' />
+          <Line type='monotone' dataKey='irrigated trend' stroke='#8884d8' />
+          <Line type='monotone' dataKey='rainfeed' stroke='#82ca9d' />
           <Line type='monotone' dataKey='rainfeed trend' stroke='#82ca9d' />
         </LineChart>
       </ResponsiveContainer>

@@ -31,7 +31,8 @@ const Page = (): JSX.Element => {
     formState: { errors },
     register,
     handleSubmit,
-    reset
+    reset,
+    watch
   } = useForm<AddProductionTypes>({
     defaultValues: {
       irrigated,
@@ -39,6 +40,9 @@ const Page = (): JSX.Element => {
       seedType
     }
   })
+
+  const watchIrrigated = watch('irrigated')
+  const watchRainfeed = watch('rainfeed')
 
   const setActiveOption = (option: string): void => {
     setActiveOptions(option)
@@ -91,6 +95,9 @@ const Page = (): JSX.Element => {
     }
   }, [reset, irrigated, rainfeed, seedType])
 
+  const isDisabledButton =
+    !!activeOptions && watchIrrigated !== 0 && watchRainfeed !== 0
+
   return (
     <section className='flex h-screen items-center justify-center bg-green-900/50 bg-cover bg-no-repeat bg-blend-overlay'>
       <div className='w-2/6 space-y-6 rounded-lg bg-white py-10'>
@@ -134,6 +141,7 @@ const Page = (): JSX.Element => {
             title='Save'
             type='submit'
             variant='secondary'
+            isDisabled={!isDisabledButton}
             customStyle='text-white w-full'
           />
         </form>

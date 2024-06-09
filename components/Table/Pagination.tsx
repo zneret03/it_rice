@@ -1,33 +1,43 @@
+import { Dispatch, SetStateAction } from 'react'
 import { ChevronLeft, ChevronRight } from 'react-feather'
 
 interface PaginationTypes {
-  nextPage: () => void
-  previousPage: () => void
+  setCurrentPage: Dispatch<SetStateAction<number>>
   currentPage: number
-  totalPage: number
+  totalPage?: number
 }
 
 export const Pagination = ({
-  nextPage,
-  previousPage,
+  setCurrentPage,
   currentPage,
   totalPage
 }: PaginationTypes): JSX.Element => {
   const isDisabledNext = currentPage === totalPage
   const isDisabledPrevious = currentPage === 1
 
+  const onNextOrPrevious = (type: 'next' | 'previous'): void => {
+    if (type === 'next') {
+      setCurrentPage((prevState) => prevState + 1)
+      return
+    }
+
+    setCurrentPage((prevState) => prevState - 1)
+  }
+
   return (
     <div className='flex items-center p-4'>
       <button
-        onClick={previousPage}
+        onClick={() => onNextOrPrevious('previous')}
         disabled={isDisabledPrevious}
         className={`${isDisabledPrevious ? 'cursor-not-allowed opacity-40' : 'cursor-pointer opacity-100'}`}
       >
         <ChevronLeft />
       </button>
-      <span className='border border-2 px-2 border-green-900 rounded-lg bg-green-900 text-white'>{currentPage}</span>
+      <span className='rounded-lg border border-2 border-green-900 bg-green-900 px-2 text-white'>
+        {currentPage}
+      </span>
       <button
-        onClick={nextPage}
+        onClick={() => onNextOrPrevious('next')}
         disabled={isDisabledNext}
         className={`${isDisabledNext ? 'cursor-not-allowed opacity-40' : 'cursor-pointer opacity-100'}`}
       >

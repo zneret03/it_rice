@@ -8,7 +8,7 @@ import {
   ModalProvider
 } from '@/context'
 import { useSearchParams } from 'next/navigation'
-import { CreateUserModal } from './account/components'
+import { CreateUserModal, UpdateUserModal } from './account/components'
 import '@/styles/index.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -34,6 +34,7 @@ export default function RootLayout({
               {children}
               <Footer />
               <CreateUserModal />
+              <UpdateUserModal />
             </body>
           </ProductionProvider>
         </AuthorizationProvider>

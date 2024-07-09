@@ -32,8 +32,34 @@ const Page = (): JSX.Element => {
     setUserData(fetchData)
   }, [fetchData])
 
-  const onOpenModal = (): void =>
-    dispatch?.({ type: 'open-modal', payload: { isOpen: true } })
+  const onOpenModal = (
+    type: 'new-account' | 'update-account',
+    data?: { id: number; name: string; email: string }
+  ): void => {
+    if (type === 'update-account') {
+      dispatch?.({
+        type: 'open-modal',
+        payload: {
+          isOpen: true,
+          type: type as 'update-account',
+          data: data as keyof typeof data
+        }
+      })
+      return
+    }
+
+    dispatch?.({
+      type: 'open-modal',
+      payload: { isOpen: true, type: type as 'new-account' }
+    })
+  }
+
+  const onOpenCreateUser = (): void => onOpenModal('new-account')
+  const onOpenUpdateUser = (data: {
+    id: number
+    name: string
+    email: string
+  }): void => onOpenModal('update-account', data)
 
   const deleteUser = async (id: number): Promise<void> => {
     const response = await swal.fire({
@@ -71,7 +97,7 @@ const Page = (): JSX.Element => {
               title='Create new user'
               type='submit'
               variant='secondary'
-              onClick={onOpenModal}
+              onClick={onOpenCreateUser}
             />
           </div>
           <table className='mt-4 w-full'>
@@ -95,7 +121,11 @@ const Page = (): JSX.Element => {
                   <td className='my-2 flex-1 space-x-2'>
                     {emailParams === 'admin@email.com' && (
                       <>
-                        <Button title='Edit' variant='primary' />
+                        <Button
+                          title='Edit'
+                          variant='primary'
+                          onClick={() => onOpenUpdateUser({ id, email, name })}
+                        />
                         <Button
                           title='Delete'
                           variant='secondary'

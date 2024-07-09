@@ -2,12 +2,29 @@ import { createContext, ReactNode, useReducer, Dispatch } from 'react'
 
 type ActionType = 'open-modal' | 'close-modal'
 
-interface ModalType {
-  isOpen: boolean
-}
+type ModalType =
+  | {
+      type: 'update-account' | null
+      isOpen: boolean
+      data: {
+        id: number
+        name: string
+        email: string
+      }
+    }
+  | {
+      isOpen: boolean
+      type: 'new-account' | null
+    }
 
 const initialState: ModalType = {
-  isOpen: false
+  isOpen: false,
+  type: null,
+  data: {
+    id: 0,
+    name: '',
+    email: ''
+  }
 } as const
 
 interface ModalContextType {

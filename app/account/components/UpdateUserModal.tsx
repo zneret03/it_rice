@@ -1,5 +1,5 @@
 'use client'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { ModalContext } from '@/context'
 import { useValidation } from '@/lib'
 import { InputField, Button } from '@/components'
@@ -9,15 +9,16 @@ import axios from 'axios'
 import { X } from 'react-feather'
 
 interface CreateUserTypes {
+  id: number
   name: string
   email: string
   password: string
 }
 
-export const CreateUserModal = (): JSX.Element => {
+export const UpdateUserModal = (): JSX.Element => {
   const { state, dispatch } = useContext(ModalContext)
   const { validation } = useValidation()
-  const { isOpen, type } = state
+  const { isOpen, type, data } = state
 
   const {
     register,
@@ -25,7 +26,11 @@ export const CreateUserModal = (): JSX.Element => {
     formState: { errors },
     watch,
     reset
-  } = useForm<CreateUserTypes>()
+  } = useForm<CreateUserTypes>({
+    defaultValues: {
+      ...data
+    }
+  })
 
   const watchField = watch(['name', 'email', 'password'])
 
@@ -36,7 +41,7 @@ export const CreateUserModal = (): JSX.Element => {
 
   const onSubmit = async (data: CreateUserTypes): Promise<void> => {
     const { name, email, password } = data
-    await axios.post('/api/users', {
+    await axios.put(`/api/users/${data.id}`, {
       name,
       email,
       password,
@@ -45,7 +50,7 @@ export const CreateUserModal = (): JSX.Element => {
 
     const response = await swal.fire({
       title: 'Success',
-      text: 'successfully added production',
+      text: 'successfully updated account',
       icon: 'success'
     })
 
@@ -57,13 +62,19 @@ export const CreateUserModal = (): JSX.Element => {
     onClose()
   }
 
+  useEffect(() => {
+    reset({
+      ...data
+    })
+  }, [data])
+
   return (
     <>
-      {isOpen && type === 'new-account' ? (
+      {isOpen && type === 'update-account' ? (
         <section className='absolute top-0 flex h-screen w-full items-center justify-center bg-black/50 bg-cover bg-no-repeat bg-blend-overlay'>
           <div className='relative w-full max-w-2xl rounded-lg bg-white p-10'>
             <header>
-              <h1 className='text-2xl font-bold'>Create new user</h1>
+              <h1 className='text-2xl font-bold'>Update User Modal</h1>
               <div className='absolute right-4 top-4'>
                 <X className='cursor-pointer' onClick={onClose} />
               </div>
@@ -102,7 +113,7 @@ export const CreateUserModal = (): JSX.Element => {
 
               <div className='pt-4'>
                 <Button
-                  title='register'
+                  title='save'
                   type='submit'
                   isDisabled={isDisabledButton}
                   variant='secondary'

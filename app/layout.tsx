@@ -22,7 +22,7 @@ export default function RootLayout({
   const email = params.get('email')
 
   return (
-    <html lang='en' className='scroll-smooth'>
+    <html lang='en' className='scroll-smooth' suppressHydrationWarning>
       <title>RiceTech</title>
       <ModalProvider>
         <AuthorizationProvider>

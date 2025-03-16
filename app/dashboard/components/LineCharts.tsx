@@ -8,6 +8,7 @@ import {
   Line,
   ResponsiveContainer
 } from 'recharts'
+import { formatData } from '@/helpers'
 import { Dropdown } from '@/components'
 import { useFetchData } from '@/lib'
 
@@ -26,32 +27,14 @@ interface FormatDataTypes {
   'rainfeed trend': number
   month: string
 }
-const chartOptions = ['2023', '2024', '2025']
 
-const roundOfFunction = (number: Number) =>
-  Math.round(Number(number) * 100) / 100
-
-const formatData = (
-  irrigated: number[],
-  irrigated_trend: number[],
-  rainfeed: number[],
-  rainfeed_trend: number[],
-  months: string[]
-): FormatDataTypes[] => {
-  return months?.map((month, index) => ({
-    irrigated: roundOfFunction(irrigated[index]),
-    'irrigated trend': roundOfFunction(irrigated_trend[index]),
-    rainfeed: roundOfFunction(rainfeed[index]),
-    'rainfeed trend': roundOfFunction(rainfeed_trend[index]),
-    month: month
-  }))
-}
+const chartOptions = ['2023', '2025']
 
 export const LineCharts = (): JSX.Element => {
   const [activeOptions, setActiveOption] = useState<string>(chartOptions[0])
 
   const { fetchData } = useFetchData<TrendsTypes>(
-    `/api/dashboard/trend?year=${activeOptions}`
+    `/api/dashboard/trend/month?year=${activeOptions}`
   )
 
   const formattedData = useMemo(
@@ -63,7 +46,7 @@ export const LineCharts = (): JSX.Element => {
         fetchData?.rainfeed_trend,
         fetchData?.month
       ),
-    [fetchData]
+    [fetchData, activeOptions]
   )
 
   return (

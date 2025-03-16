@@ -63,7 +63,12 @@ const Page = (): JSX.Element => {
       icon: 'success'
     })
 
-    reset()
+    reset({
+      irrigated: 0,
+      rainfeed: 0
+    })
+
+    setActiveOption('')
   }
 
   const onEdit = async (data: ProductionTypes): Promise<void> => {
@@ -105,15 +110,14 @@ const Page = (): JSX.Element => {
           Production Data
         </h1>
 
-        <form
-          className='space-y-6 px-10'
-          onSubmit={isEdit ? handleSubmit(onEdit) : handleSubmit(onAdd)}
-        >
+        <div className='space-y-6 px-10'>
           <InputField
             label='Irrigated'
-            type='text'
+            type='number'
             placeholder='Enter your irrigated data...'
             hasError={!!errors.irrigated}
+            min='0.00'
+            step='0.001'
             errorMessage={errors?.irrigated?.message}
             {...register('irrigated', {
               required: 'Required field.'
@@ -121,9 +125,11 @@ const Page = (): JSX.Element => {
           />
           <InputField
             label='Rainfeed'
-            type='text'
+            type='number'
             placeholder='Enter your rainfeed...'
             hasError={!!errors.rainfeed}
+            min='0.00'
+            step='0.001'
             errorMessage={errors?.rainfeed?.message}
             {...register('rainfeed', {
               required: 'Required field.'
@@ -142,9 +148,10 @@ const Page = (): JSX.Element => {
             type='submit'
             variant='secondary'
             isDisabled={!isDisabledButton}
+            onClick={isEdit ? handleSubmit(onEdit) : handleSubmit(onAdd)}
             customStyle='text-white w-full'
           />
-        </form>
+        </div>
       </div>
     </section>
   )

@@ -103,7 +103,7 @@ export const ProductionChart = (): JSX.Element => {
         >
           <BarChart width={730} height={250} data={formattedData}>
             <CartesianGrid strokeDasharray='2 2' />
-            <XAxis dataKey='year' />
+            <XAxis dataKey='name' />
             <YAxis />
             <Tooltip />
             <Legend />

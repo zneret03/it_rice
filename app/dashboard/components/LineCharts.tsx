@@ -46,7 +46,7 @@ export const LineCharts = (): JSX.Element => {
         fetchData?.rainfeed_trend,
         fetchData?.month
       ),
-    [fetchData, activeOptions]
+    [fetchData]
   )
 
   return (

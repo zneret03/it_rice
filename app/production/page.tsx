@@ -10,12 +10,12 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import axios from 'axios'
 import swal from 'sweetalert2'
 
-type AddProductionTypes = Omit<ProductionTypes, 'dateCrated'>
-
 const Page = (): JSX.Element => {
   const {
-    state: { irrigated, rainfeed, seedType, id }
+    state: { irrigated, rainfeed, seedType, id, dateCreated }
   } = useContext(ProductionContext)
+
+  const defaultDateValue = new Date(dateCreated).toISOString().split('T')[0]
 
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -23,9 +23,11 @@ const Page = (): JSX.Element => {
   const params = searchParams.get('type')
   const paramsEmail = searchParams.get('email')
 
-  const [activeOptions, setActiveOptions] = useState<string>('')
+  const [activeOptions, setActiveOptions] = useState<string>(seedType)
 
   const isEdit = params === 'edit'
+
+  console.log(defaultDateValue)
 
   const {
     formState: { errors },
@@ -33,11 +35,12 @@ const Page = (): JSX.Element => {
     handleSubmit,
     reset,
     watch
-  } = useForm<AddProductionTypes>({
+  } = useForm<ProductionTypes>({
     defaultValues: {
       irrigated,
       rainfeed,
-      seedType
+      seedType,
+      dateCreated: defaultDateValue
     }
   })
 
@@ -49,12 +52,13 @@ const Page = (): JSX.Element => {
   }
 
   const onAdd = async (data: ProductionTypes): Promise<void> => {
-    const { irrigated, rainfeed } = data
+    const { irrigated, rainfeed, dateCreated } = data
 
     await axios.post('/api/production', {
       irrigated: Number(irrigated),
       rainfeed: Number(rainfeed),
-      seedType: activeOptions || seedType
+      seedType: activeOptions || seedType,
+      dateCreated: dateCreated
     })
 
     swal.fire({
@@ -72,12 +76,13 @@ const Page = (): JSX.Element => {
   }
 
   const onEdit = async (data: ProductionTypes): Promise<void> => {
-    const { irrigated, rainfeed, seedType } = data
+    const { irrigated, rainfeed, seedType, dateCreated } = data
 
     await axios.put(`/api/production/${id}`, {
       irrigated: Number(irrigated),
       rainfeed: Number(rainfeed),
-      seedType: activeOptions || seedType
+      seedType: activeOptions || seedType,
+      dateCreated: dateCreated
     })
 
     swal.fire({
@@ -132,6 +137,18 @@ const Page = (): JSX.Element => {
             step='0.001'
             errorMessage={errors?.rainfeed?.message}
             {...register('rainfeed', {
+              required: 'Required field.'
+            })}
+          />
+
+          <InputField
+            label='Date'
+            type='date'
+            placeholder='Enter your rainfeed...'
+            defaultValues={defaultDateValue}
+            hasError={!!errors.dateCreated}
+            errorMessage={errors?.dateCreated?.message}
+            {...register('dateCreated', {
               required: 'Required field.'
             })}
           />

@@ -66,7 +66,7 @@ export const UpdateUserModal = (): JSX.Element => {
     reset({
       ...data
     })
-  }, [data])
+  }, [data, reset])
 
   return (
     <>

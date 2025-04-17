@@ -1,7 +1,7 @@
 import { ReactNode, createContext, Dispatch, useReducer } from 'react'
 import { ProductionTypes } from '@/lib'
 
-type Production = Omit<ProductionTypes, 'dateCreated'>
+type Production = ProductionTypes
 
 const initialState: Production = {
   irrigated: 0,

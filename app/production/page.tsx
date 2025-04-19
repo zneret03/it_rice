@@ -15,8 +15,6 @@ const Page = (): JSX.Element => {
     state: { irrigated, rainfeed, seedType, id, dateCreated }
   } = useContext(ProductionContext)
 
-  const defaultDateValue = new Date(dateCreated).toISOString().split('T')[0]
-
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -27,7 +25,9 @@ const Page = (): JSX.Element => {
 
   const isEdit = params === 'edit'
 
-  console.log(defaultDateValue)
+  const defaultDateValue = isEdit
+    ? new Date(dateCreated).toISOString().split('T')[0]
+    : dateCreated
 
   const {
     formState: { errors },
@@ -69,7 +69,8 @@ const Page = (): JSX.Element => {
 
     reset({
       irrigated: 0,
-      rainfeed: 0
+      rainfeed: 0,
+      dateCreated: ''
     })
 
     setActiveOption('')

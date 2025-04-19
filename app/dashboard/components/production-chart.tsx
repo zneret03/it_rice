@@ -21,6 +21,7 @@ interface TrendsTypes {
   rainfeed: number[]
   rainfeed_trend: number[]
   month: string[]
+  year: string[]
 }
 
 interface FormatDataTypes {
@@ -31,18 +32,23 @@ interface FormatDataTypes {
   month: string
 }
 
-const chartOptionsYear = ["2023", "2025"]
-
 export const ProductionChart = (): JSX.Element => {
-  const [activeOptions, setActiveOption] = useState<string>('All')
-  const [activeOptionsYear, setActiveOptionYear] = useState<string>(chartOptionsYear[0])
+  const today = new Date()
+
   const [activeIndex, setActiveIndex] = useState<number>(0)
+  const [activeOptionsYear, setActiveOptionYear] = useState<string>(today.getFullYear())
 
   const { fetchData } = useFetchData<TrendsTypes>(
     activeIndex === 0
       ? '/api/dashboard/trend/year'
       : `/api/dashboard/trend/month?year=${activeOptionsYear}`
   )
+
+  const { fetchData: getYear } = useFetchData<TrendsTypes>('/api/dashboard/trend/year')
+
+  const chartOptionsYear = getYear?.year
+
+  const [activeOptions, setActiveOption] = useState<string>('All')
 
   const formattedData = useMemo(() => activeIndex === 0 ? splitDataByYear(fetchData) : (
       formatData(

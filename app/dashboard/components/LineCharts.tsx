@@ -28,14 +28,19 @@ interface FormatDataTypes {
   month: string
 }
 
-const chartOptions = ['2023', '2025']
-
 export const LineCharts = (): JSX.Element => {
-  const [activeOptions, setActiveOption] = useState<string>(chartOptions[0])
+  const today = new Date()
+  const [activeOptions, setActiveOption] = useState<string>(today.getFullYear())
 
   const { fetchData } = useFetchData<TrendsTypes>(
     `/api/dashboard/trend/month?year=${activeOptions}`
   )
+
+  const { fetchData: getYear } = useFetchData<TrendsTypes>(
+    '/api/dashboard/trend/year'
+  )
+
+  const chartOptions = getYear?.year
 
   const formattedData = useMemo(
     () =>

@@ -22,9 +22,7 @@ export default function Home() {
         <h1 className={`text-5xl font-extrabold text-green-100`}>
           Welcome to RiceTech
         </h1>
-        <p className='text-green-300'>
-          DSS in determing local rice production and consumption
-        </p>
+        <p className='text-green-300'>DSS in determing local rice production</p>
 
         <footer className='flex gap-4'>
           <Link href='/login'>

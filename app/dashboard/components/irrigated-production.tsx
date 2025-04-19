@@ -39,7 +39,7 @@ export const ErrigatedProduction = (): JSX.Element => {
       <div className='mt-4 rounded-lg bg-white shadow-lg'>
         <div className='flex items-center justify-between px-6 pt-6 text-green-900'>
           <h1 className='text-2xl font-bold'>
-            Quarterly Rainfeed and Irrigated Prediction
+            Quarterly Rainfeed and Irrigated
           </h1>
           <Dropdown
             options={['1', '2', '3', '4']}
